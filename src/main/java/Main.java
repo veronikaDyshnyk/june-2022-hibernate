@@ -1,3 +1,5 @@
+import models.Car;
+import models.Engine;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
@@ -16,7 +18,8 @@ public class Main {
 
         Metadata metadata =
                 new MetadataSources(serviceRegistry)
-                        .addAnnotatedClass(null) /*!!!!!!! register class*/
+                        .addAnnotatedClass(Car.class) /*!!!!!!! register class*/
+                        .addAnnotatedClass(Engine.class)
                         .getMetadataBuilder()
                         .build();
         SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
@@ -25,7 +28,9 @@ public class Main {
         //work space
 
         session.beginTransaction();
-
+session.save(new Car("bmv","sx",1999,new Engine("43074hgj3904")));
+session.save(new Car("bmv","sx",1949,new Engine("88337234dfs4")));
+session.save(new Car("bmv","sx",1959,new Engine("adfdw3323204")));
 
         session.getTransaction().commit();
 

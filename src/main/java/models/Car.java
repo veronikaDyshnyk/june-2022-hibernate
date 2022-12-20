@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -25,10 +26,26 @@ public class Car {
     @JoinColumn(name = "engine_id",referencedColumnName = "id")
     private Engine engine;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "car_driver",
+            joinColumns = @JoinColumn(name = "car_id"),
+            inverseJoinColumns = @JoinColumn(name = "dreivers_id")
+    )
+    private List<Driver> drivers;
+
     public Car(String brand, String model, int year, Engine engine) {
         this.brand = brand;
         this.model = model;
         this.year = year;
         this.engine = engine;
+    }
+
+    public Car(String brand, String model, int year, Engine engine, List<Driver> drivers) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.engine = engine;
+        this.drivers = drivers;
     }
 }

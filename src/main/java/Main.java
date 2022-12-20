@@ -1,11 +1,15 @@
 import models.Car;
 import models.Engine;
+import models.Wheels;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.Metadata;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Main {
     public static void main(String[] args) {
@@ -19,7 +23,7 @@ public class Main {
         Metadata metadata =
                 new MetadataSources(serviceRegistry)
                         .addAnnotatedClass(Car.class) /*!!!!!!! register class*/
-                        .addAnnotatedClass(Engine.class)
+                        .addAnnotatedClass(Wheels.class)
                         .getMetadataBuilder()
                         .build();
         SessionFactory sessionFactory = metadata.getSessionFactoryBuilder().build();
@@ -28,9 +32,12 @@ public class Main {
         //work space
 
         session.beginTransaction();
-session.save(new Car("bmv","sx",1999,new Engine("43074hgj3904")));
-session.save(new Car("bmv","sx",1949,new Engine("88337234dfs4")));
-session.save(new Car("bmv","sx",1959,new Engine("adfdw3323204")));
+
+        session.save(new Car("bmv", "sx", 1959,
+                Arrays.asList(new Wheels(20),new Wheels(21))));
+session.save(new Car("bmv", "sx", 1959,
+                Arrays.asList(new Wheels(12),new Wheels(12))));
+
 
         session.getTransaction().commit();
 

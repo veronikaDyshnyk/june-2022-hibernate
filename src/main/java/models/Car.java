@@ -1,18 +1,16 @@
 package models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Entity
-
+@ToString
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,15 +18,25 @@ public class Car {
     private String brand;
     private String model;
     private int year;
+@OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+@JoinTable(
+        name= "car_wheels",
+        joinColumns = @JoinColumn(name= "car_id"),
+        inverseJoinColumns = @JoinColumn(name ="wheels_id")
+)
+    private List<Wheels> wheels;
 
-    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-    @JoinColumn(name = "engine_id",referencedColumnName = "id")
-    private Engine engine;
-
-    public Car(String brand, String model, int year, Engine engine) {
+    public Car(String brand, String model, int year) {
         this.brand = brand;
         this.model = model;
         this.year = year;
-        this.engine = engine;
+    }
+
+    public Car(String brand, String model, int year, List<Wheels> wheels) {
+        this.brand = brand;
+        this.model = model;
+        this.year = year;
+        this.wheels = wheels;
     }
 }
+
